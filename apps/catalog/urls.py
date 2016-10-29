@@ -20,5 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^$',views.index,name='index'),
+    url(r'^(?P<category_slug>[-\w]+)/$',views.product_grid,name='product_grid'),
+    url(r'^(?P<id>\d+)/(?P<slug>[-\w]+)/$',views.product_detail,name='product_detail'),
     url(r'^uploads/(?P<path>.*)$','django.views.static.serve',{"document_root":settings.MEDIA_ROOT,}),
 ]

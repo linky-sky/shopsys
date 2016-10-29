@@ -1632,6 +1632,20 @@ a.more:hover{text-decoration: underline!important;}
 	position: relative;
 	z-index: 1;
 }
+.int_number{
+	float: right;
+	width: 50px;
+	height: 20px;
+	margin: 0 -1px 0 0;
+	border-right: 0 none;
+	border-radius: 2px 0 0 2px;
+	-moz-border-radius: 2px 0 0 2px;
+	-khtml-border-radius: 2px 0 0 2px;
+	behavior: url(PIE.htc);
+	text-decoration: none;
+	position: relative;
+	z-index: 1;
+}
 .product_page .entry_content .block_cart .cart a.bay{
 	float: right;
 	display: block;
@@ -2734,4 +2748,35 @@ ul.f_contact li+li+li{background: url(../images/li_let.png) no-repeat 0px 50%;}
 	width:118px;
 	float: left;
 	margin: 0 22px 0 0;
+}
+
+.button_bay{
+	float: right;
+	display: block;
+	width: 120px;
+	height: 35px;
+	color: #fefefe;
+	text-align: center;
+	text-decoration: none;
+	font:bold 13px/35px Segoeui-Bold, Arial, Verdana, serif;
+	background: #59b7c2;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	behavior: url(PIE.htc);
+	position: relative;
+	z-index: 2;
+}
+
+.selectBox-arrow{
+	float: right;
+	width: 30px;
+	height: 35px;
+
+}
+
+.selectBox-label{
+	float: left;
+	width: 30px;
+	height: 35px;
 }

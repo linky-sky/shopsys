@@ -1,0 +1,295 @@
+{% extends "web/base.html" %}
+{% load staticfiles %}
+
+
+{% block custom_css %}  
+{% endblock %}
+
+
+
+{% block custom_script %}
+  <script src="{% static 'js/checkbox.js' %}"></script>
+  <script src="{% static 'js/radio.js' %}"></script>
+  <script src="{% static 'js/selectBox.js' %}"></script>
+   <script>
+       $(document).ready(function(){
+        $("#myController").jFlow({
+         controller: ".control", // must be class, use . sign
+         slideWrapper : "#jFlowSlider", // must be id, use # sign
+         slides: "#slider",  // the div where all your sliding divs are nested in
+         selectedWrapper: "jFlowSelected",  // just pure text, no sign
+         width: "984px",  // this is the width for the content-slider
+         height: "480px",  // this is the height for the content-slider
+         duration: 400,  // time in miliseconds to transition one slide
+         prev: ".slidprev", // must be class, use . sign
+         next: ".slidnext", // must be class, use . sign
+         auto: true
+        });
+       });
+  </script>
+  <script>
+       $(function() {
+    $('#list_product').carouFredSel({
+    prev: '#prev_c1',
+    next: '#next_c1',
+    auto: false
+    });
+          $('#list_product2').carouFredSel({
+    prev: '#prev_c2',
+    next: '#next_c2',
+    auto: false
+    });
+    $(window).resize();
+  });
+  </script>
+  <script>
+       $(document).ready(function(){
+        $("button").click(function(){
+         $(this).addClass('click')
+        });
+       })
+  </script>
+  <script>
+       $(document).ready(function() {
+        $("select").selectBox();
+       });
+  </script>
+
+{% endblock %}
+
+
+{% block body %}
+
+  <section id="main" class="entire_width">
+    <div class="container_12">
+       <div class="grid_12">
+       <h1 class="page_title">购物车</h1>
+
+       <table class="cart_product">
+        <tr>
+         <th class="images"></th>
+         <th class="bg name">商品名称</th>
+         <th class="edit"> </th>
+         <th class="bg price">单价</th>
+         <th class="qty">数量</th>
+         <th class="bg subtotal">共计</th>
+         <th class="close"> </th>
+        </tr>
+        {% for item in cart %}
+        {% with product=item.product %}
+        <tr>
+         <td class="images"><a href="{{ product.get_absolute_url }}"><img src="{{ product.get_image_url }}" alt="Product 6"></a></td>
+         <td class="bg name">{{ product.name }}<br/> Jasmine, 4-Ounces</td>
+         <td class="edit"><a title="Edit" href="#">Edit</a></td>
+         <td class="bg price">¥{{ item.price }}</td>
+         <!-- <td class="qty"><input type="text" name="" value="" placeholder="{{ item.quantity }}" /></td> -->
+         <td>
+         <form action="{% url 'cart:cart_add' product.id %}" method="post">
+         {% csrf_token %}
+         {{ item.update_quantity_form.quantity }}
+         {{ item.update_quantity_form.update }}
+         <input type="submit" value="Update">
+         </form>
+         </td>
+         <td class="bg subtotal">¥{{ item.total_price }}</td>
+         <td class="close"><a title="close" class="close" href="{% url 'cart:cart_remove' product.id %}"></a></td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+        <tr>
+         <td colspan="7" class="cart_but">
+          <button class="continue"><span>icon</span>返回继续购物</button>
+          <button class="update"><span>icon</span>更新购物清单</button>
+         </td>
+        </tr>
+       </table>
+       </div><!-- .grid_12 -->
+
+       <div id="content_bottom">
+        <div class="grid_4">
+          <div class="bottom_block estimate">
+            <h3>Estimate Shipping and Tax</h3>
+            <p>Enter your destination to get a shipping estimate.</p>
+      <form>
+        <p>
+         <strong>Country:</strong><sup class="surely">*</sup><br/>
+         <select>
+          <option>United States</option>
+          <option>United States</option>
+         </select>
+        </p>
+        <p>
+         <strong>State/Province:</strong><br/>
+         <select>
+          <option>Please select region, state or province</option>
+          <option>Please select region, state or province</option>
+         </select>
+        </p>
+        <p>
+         <strong>Zip/Postal Code</strong><br/>
+         <input type="text" name="" value="" />
+        </p>
+        <input type="submit" id="get_estimate" value="Get a Quote" />
+      </form>
+
+          </div><!-- .estimate -->
+        </div><!-- .grid_4 -->
+
+        <div class="grid_4">
+          <div class="bottom_block discount">
+            <h3>Discount Codes</h3>
+            <p>Enter your coupon code if you have one.</p>
+      <form>
+        <p>
+         <input type="text" name="" value="" placeholder="United States"/>
+        </p>
+        <input type="submit" id="apply_coupon" value="Apply Coupon" />
+      </form>
+          </div><!-- .discount -->
+        </div><!-- .grid_4 -->
+
+        <div class="grid_4">
+          <div class="bottom_block total">
+        <table class="subtotal">
+         <tr>
+          <td>Subtotal</td><td class="price">$1, 500.00</td>
+         </tr>
+         <tr class="grand_total">
+          <td>Grand Total</td><td class="price">$1, 500.00</td>
+         </tr>
+        </table>
+      <button class="checkout">PROCEED TO CHECKOUT</button>
+            <a href="#">Checkout with Multiple Addresses</a>
+          </div><!-- .total -->
+        </div><!-- .grid_4 -->
+
+        <div class="clear"></div>
+      </div><!-- #content_bottom -->
+      <div class="clear"></div>
+
+      <div class="clear"></div>
+
+      <div class="carousel" id="following">
+        <div class="c_header">
+          <div class="grid_10">
+            <h5>Based on your selection, you may be interested in the following item:</h5>
+          </div><!-- .grid_10 -->
+
+          <div class="grid_2">
+            <a id="next_c1" class="next arows" href="#"><span>Next</span></a>
+            <a id="prev_c1" class="prev arows" href="#"><span>Prev</span></a>
+           </div><!-- .grid_2 -->
+        </div><!-- .c_header -->
+
+        <div class="list_carousel">
+
+        <ul id="list_product" class="list_product">
+          <li class="">
+            <div class="grid_3 product">
+              <img class="sale" src="images/sale.png" alt="Sale"/>
+              <div class="prev">
+                <a href="product_page.html"><img src="images/product_1.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <img class="sale" src="images/sale.png" alt="Sale"/>
+              <div class="prev">
+                <a href="product_page.html"><img src="images/product_2.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <div class="prev">
+                <a href="product_page.html"><img src="images/product_3.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <img class="sale" src="images/sale.png" alt="Sale"/>
+              <div class="prev">
+                <a href="product_page.html"><img src="images/product_4.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+          <li class="">
+            <div class="grid_3 product">
+              <div class="prev">
+                <a href="product_page.html"><img src="images/product_5.png" alt="" title="" /></a>
+              </div><!-- .prev -->
+              <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
+              <div class="cart">
+                <div class="price">
+                <div class="vert">
+                  <div class="price_new">$550.00</div>
+                  <div class="price_old">$725.00</div>
+                </div>
+                </div>
+                <a href="#" class="obn"></a>
+                <a href="#" class="like"></a>
+                <a href="#" class="bay"></a>
+              </div><!-- .cart -->
+            </div><!-- .grid_3 -->
+          </li>
+
+        </ul><!-- #list_product -->
+        </div><!-- .list_carousel -->
+      </div><!-- .carousel -->
+
+    </div><!-- .container_12 -->
+  </section><!-- #main -->
+{% endblock %}

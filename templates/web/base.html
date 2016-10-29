@@ -1,0 +1,297 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+
+  <link rel="shortcut icon" href="favicon.ico">
+  <link href="{% static 'css/style.css' %}" media="screen" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/grid.css' %}" media="screen" rel="stylesheet" type="text/css">
+
+
+  {% block custom_css %}{% endblock %}
+  
+
+  <script src="{% static 'js/jquery-1.7.2.min.js' %}" ></script>
+  <script src="{% static 'js/html5.js' %}" ></script>
+  <script src="{% static 'js/jflow.plus.js' %}" ></script>
+  <script src="{% static 'js/jquery.carouFredSel-5.2.2-packed.js' %}"></script>
+
+  {% block custom_script %}{% endblock %}
+
+
+  <script>
+	$(document).ready(function(){
+	    $("#myController").jFlow({
+			controller: ".control", // must be class, use . sign
+			slideWrapper : "#jFlowSlider", // must be id, use # sign
+			slides: "#slider",  // the div where all your sliding divs are nested in
+			selectedWrapper: "jFlowSelected",  // just pure text, no sign
+			width: "984px",  // this is the width for the content-slider
+			height: "480px",  // this is the height for the content-slider
+			duration: 400,  // time in miliseconds to transition one slide
+			prev: ".slidprev", // must be class, use . sign
+			next: ".slidnext", // must be class, use . sign
+			auto: true
+    });
+  });
+  </script>
+  <script>
+	$(function() {
+	  $('#list_product').carouFredSel({
+		prev: '#prev_c1',
+		next: '#next_c1',
+		auto: false
+	  });
+      $('#list_product2').carouFredSel({
+		prev: '#prev_c2',
+		next: '#next_c2',
+		auto: false
+	  });
+	  $('#list_product3').carouFredSel({
+		prev: '#prev_c3',
+		next: '#next_c3',
+		auto: false
+	  });
+	  $('#list_product4').carouFredSel({
+		prev: '#prev_c4',
+		next: '#next_c4',
+		auto: false
+	  });
+	  $('#list_product5').carouFredSel({
+		prev: '#prev_c5',
+		next: '#next_c5',
+		auto: false
+	  });
+	  $('#list_product6').carouFredSel({
+		prev: '#prev_c6',
+		next: '#next_c6',
+		auto: false
+	  });
+	  $(window).resize();
+	});
+  </script>
+  <script>
+       $(document).ready(function(){
+	      $("button").click(function(){
+		     $(this).addClass('click')
+	      });
+       })
+  </script>
+
+</head>
+<body>
+  <div class="container_12">
+    <div id="top">
+      <div class="grid_3">
+        <div class="phone_top">
+          Call IPhone 13719433887
+        </div><!-- .phone_top -->
+      </div><!-- .grid_3 -->
+
+      <div class="grid_6">
+        <div class="welcome">
+          欢迎浏览本店
+        </div><!-- .welcome -->
+      </div><!-- .grid_6 -->
+      <div class="grid_3">
+<!--         <div class="valuta">
+          <ul>
+            <li class="curent"><a href="#">$</a></li>
+            <li><a href="#">&#8364;</a></li>
+            <li><a href="#">&#163;</a></li>
+          </ul>
+        </div> --><!-- .valuta -->
+
+<!--         <div class="lang">
+          <ul>
+            <li class="curent"><a href="#">EN</a></li>
+            <li><a href="#">FR</a></li>
+            <li><a href="#">GM</a></li>
+          </ul>
+        </div> --><!-- .lang -->
+      </div><!-- .grid_3 -->
+    </div><!-- #top -->
+
+    <div class="clear"></div>
+
+    <header id="branding">
+      <div class="grid_3">
+        <hgroup>
+          <h1 id="site_logo" ><a href="{% url 'shopsys:index' %}" title=""><img src="{{ MEDIA_URL }}{{ logo.image_url }}" alt="Online Store Theme Logo"/></a></h1>
+          <h2 id="site_description">{{ logo.description }}</h2>
+        </hgroup>
+      </div><!-- .grid_3 -->
+
+      <div class="grid_3">
+        <form class="search">
+          <input type="text" name="search" class="entry_form" value="" placeholder="Search entire store here..."/>
+	</form>
+      </div><!-- .grid_3 -->
+
+      <div class="grid_6">
+        <ul id="cart_nav">
+          <li>
+            <a class="cart_li" href="{% url 'cart:cart_detail' %}">我的购物袋</a>
+            <ul class="cart_cont">
+              <li class="no_border"><p><h4>购物清单</h4></p></li>
+              {% if cart|length > 0 %}
+              {% for item in cart %}
+              {% with product=item.product %}
+              <li>
+                <a href="{{ product.get_absolute_url }}" class="prev_cart"><div class="cart_vert"><img src="{{ product.get_image_url }}" alt="" title="" /></div></a>
+                <div class="cont_cart">
+                  <h4>{{ product.name }}</h4>
+                  <div class="price">{{ item.quantity }} x ¥{{ item.total_price }}</div>
+                </div>
+                <!-- <a title="close" class="close" href="{% url 'cart:cart_remove' product.id %}"></a> -->
+                <div class="clear"></div>
+              </li>
+              {% endwith %}
+              {% endfor %}
+              {% else %}
+              <li>
+                <div class="cont_cart">
+                  <h4>您的购物袋还没有商品，去逛逛吧~</h4>
+                </div>
+                <div class="clear"></div>
+              </li>
+              {% endif %}
+    	      <li class="no_border">
+          		<a href="" class="view_cart">清空购物车</a>
+          		<a href="{% url 'cart:cart_detail' %}" class="checkout">去购物车结算</a>
+    	      </li>
+            </ul>
+          </li>
+        </ul>
+
+        <nav class="private">
+          <ul>
+            <li><a href="#">我的信息</a></li>
+		<li class="separator">|</li>
+            <li><a href="#">我的订单</a></li>
+		<li class="separator">|</li>
+            <li><a href="login.html">登录</a></li>
+		<li class="separator">|</li>
+            <li><a href="login.html">退出</a></li>
+          </ul>
+        </nav><!-- .private -->
+      </div><!-- .grid_6 -->
+    </header><!-- #branding -->
+  </div><!-- .container_12 -->
+
+  <div class="clear"></div>
+
+  <div id="block_nav_primary">
+    <div class="container_12">
+      <div class="grid_12">
+        <nav class="primary">
+          <ul>
+            <li class="curent"><a href="{% url 'shopsys:index' %}">首页</a></li>
+            {% for category in categorys %}
+                <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                </li>
+            {% endfor %}
+            <li><a href="">更多</a>
+              <ul class="sub">
+              {% for category in more_categorys %}
+                <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+              {% endfor %}  
+              </ul>
+            </li>
+          </ul>
+        </nav><!-- .primary -->
+      </div><!-- .grid_12 -->
+    </div><!-- .container_12 -->
+  </div><!-- .block_nav_primary -->
+
+  <div class="clear"></div>
+
+{% block body %}
+{% block ad %}
+{% endblock ad %}
+{% endblock body %}
+
+  <div class="clear"></div>
+
+{% block footer %}
+  <footer>
+    <div class="f_navigation">
+      <div class="container_12">
+        <div class="grid_3">
+          <h3>联系方式</h3>
+          <ul class="f_contact">
+            <li>广东省广州市</li>
+            <li>020-xxxx-xxxx</li>
+            <li>linky_sky@163.com</li>
+          </ul><!-- .f_contact -->
+        </div><!-- .grid_3 -->
+
+        <div class="grid_3">
+          <h3>服务保障</h3>
+          <nav class="f_menu">
+            <ul>
+              <li><a href="#">正品保证</a></li>
+              <li><a href="#">7天无理由放心退</a></li>
+              <li><a href="#">退货返运费</a></li>
+              <li><a href="#">7x15小时客户服务</a></li>
+            </ul>
+          </nav><!-- .private -->
+        </div><!-- .grid_3 -->
+
+
+        <div class="grid_3">
+          <h3>支付方式</h3>
+          <nav class="f_menu">
+            <ul>
+              <li><a href="contact_us.html">快捷支付</a></li>
+              <li><a href="#">23家主流网银支付</a></li>
+              <li><a href="#">货到付款</a></li>
+              <li><a href="#">支付宝、银联等支付</a></li>
+              <li><a href="#">信用卡支付</a></li>
+            </ul>
+          </nav><!-- .private -->
+        </div><!-- .grid_3 -->
+
+        <div class="grid_3">
+          <h3>售后服务</h3>
+          <nav class="f_menu">
+            <ul>
+              <li><a href="#">退货政策</a></li>
+              <li><a href="#">退货流程</a></li>
+              <li><a href="#">退款方式和时效</a></li>
+            </ul>
+          </nav><!-- .private -->
+        </div><!-- .grid_3 -->
+
+        <div class="clear"></div>
+      </div><!-- .container_12 -->
+    </div><!-- .f_navigation -->
+
+    <div class="f_info">
+      <div class="container_12">
+        <div class="grid_6">
+          <p class="copyright">Copyright © 2008-2016，All Rights Reserved，粤ICP备00000000号，版权所有、</p>
+        </div><!-- .grid_6 -->
+
+        <div class="grid_6">
+          <div class="soc">
+            <a class="google" href=""></a>
+            <a class="twitter" href=""></a>
+            <a class="facebook" href=""></a>
+          </div><!-- .soc -->
+        </div><!-- .grid_6 -->
+
+        <div class="clear"></div>
+      </div><!-- .container_12 -->
+    </div><!-- .f_info -->
+  </footer>
+{% endblock footer %}
+
+</body>
+</html>

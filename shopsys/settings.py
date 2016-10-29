@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.catalog',
+    'apps.cart',
+    'apps.orders',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -121,12 +123,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+#设置静态文件路径
 STATIC_URL = '/static/'
+
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
 
+#设置图片文件上传路径
 MEDIA_URL = '/uploads/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
@@ -136,6 +141,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
 # )
 # 
 
+#设置全局变量
 SITE_MANAGER = { 
     'SITE_NAME':'鹜人会 - wuren.com',
+    'MEDIA_URL':'/uploads/'
 }
+
+CART_SESSION_ID = 'cart'
